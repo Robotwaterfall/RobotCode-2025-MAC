@@ -6,7 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -19,10 +19,10 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
 
-  private Spark leftMotor1 = new Spark(0);
-  private Spark leftMotor2 = new Spark(1);
-  private Spark rightMotor1 = new Spark(2);
-  private Spark rightMotor2 = new Spark(3);
+  private VictorSP LeftMasterMotor1 = new VictorSP(0);
+  private VictorSP LeftMasterMotor2 = new VictorSP(1);
+  private VictorSP RightMasterMotor1 = new VictorSP(2);
+  private VictorSP RightMasterMotor2 = new VictorSP(3);
 
   private Joystick joy1 = new Joystick(0);
 
@@ -47,10 +47,10 @@ public class Robot extends TimedRobot {
     double left = speed + turn;
     double right = speed - turn;
 
-    leftMotor1.set(left);
-    leftMotor2.set(left);
-    rightMotor1.set(-right);
-    rightMotor2.set(-right);
+    LeftMasterMotor1.set(left);
+    LeftMasterMotor2.set(left);
+    RightMasterMotor1.set(-right);
+    RightMasterMotor2.set(-right);
   }
 
   @Override
