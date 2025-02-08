@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 
 /**
@@ -26,15 +27,33 @@ public class Robot extends TimedRobot {
 
   private Joystick joy1 = new Joystick(0);
 
+  private double startTime;
+
 
   @Override
   public void robotPeriodic() {}
 
   @Override
-  public void autonomousInit() {}
+  public void autonomousInit() {
+    startTime = Timer.getFPGATimestamp();
+  }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    double time = Timer.getFPGATimestamp();
+
+if (time - startTime < 3) {
+    LeftMasterMotor1.set(0.6);
+    LeftMasterMotor2.set(0.6);
+    RightMasterMotor1.set(-0.6);
+    RightMasterMotor2.set(-0.6);
+  } else {
+    LeftMasterMotor1.set(0);
+    LeftMasterMotor2.set(0);
+    RightMasterMotor1.set(0);
+    RightMasterMotor2.set(0);
+    }
+  }
 
   @Override
   public void teleopInit() {}
