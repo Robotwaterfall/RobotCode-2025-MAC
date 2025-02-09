@@ -43,10 +43,10 @@ public class Robot extends TimedRobot {
     double time = Timer.getFPGATimestamp();
 
 if (time - startTime < 3) {
-    LeftMasterMotor1.set(0.6);
-    LeftMasterMotor2.set(0.6);
-    RightMasterMotor1.set(-0.6);
-    RightMasterMotor2.set(-0.6);
+    LeftMasterMotor1.set(0.5);
+    LeftMasterMotor2.set(0.5);
+    RightMasterMotor1.set(-0.5);
+    RightMasterMotor2.set(-0.5);
   } else {
     LeftMasterMotor1.set(0);
     LeftMasterMotor2.set(0);
