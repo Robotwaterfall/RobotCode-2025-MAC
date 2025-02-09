@@ -48,16 +48,34 @@ public class Robot extends TimedRobot {
     double time = Timer.getFPGATimestamp();
 
 if (time - startTime < 3) {
-    LeftMasterMotor1.set(0.5);
+    LeftMasterMotor1.set(0.5); //drive forward for 3 seconds at 50% speed
     LeftMasterMotor2.set(0.5);
     RightMasterMotor1.set(-0.5);
     RightMasterMotor2.set(-0.5);
   } else {
-    LeftMasterMotor1.set(0);
+    LeftMasterMotor1.set(0); //stop if time is over 3 seconds
     LeftMasterMotor2.set(0);
     RightMasterMotor1.set(0);
     RightMasterMotor2.set(0);
     }
+  if (time - startTime > 3) { //turn right for longer 3 secounds at 20% speed
+    LeftMasterMotor1.set (0.2);
+    LeftMasterMotor2.set (0.2);
+    RightMasterMotor1.set (0);
+    RightMasterMotor2.set (0);
+  } else {
+    LeftMasterMotor1.set(0); //stop if time is over 6 seconds
+    LeftMasterMotor2.set(0);
+    RightMasterMotor1.set(0);
+    RightMasterMotor2.set(0);
+  if (time -startTime < 3) {
+    LeftIntakeMotor.set (0.5); //Intake on for 3 secounds at 50% speed
+    RightIntakeMotor.set (-0.5);
+  } else {
+    LeftIntakeMotor.set(0); //stop if time is over 3 seconds
+    RightIntakeMotor.set(0);
+    }
+  }
   }
 
   @Override
@@ -68,15 +86,15 @@ if (time - startTime < 3) {
     double speed = -joy1.getRawAxis(1)*0.6;
     double turn = joy1.getRawAxis(4)*0.3;
 
-    double left = speed + turn;
+    double left = speed + turn;  //calculate left and right motor speeds
     double right = speed - turn;
 
-    LeftMasterMotor1.set(left);
+    LeftMasterMotor1.set(left); //set motor speeds
     LeftMasterMotor2.set(left);
     RightMasterMotor1.set(-right);
     RightMasterMotor2.set(-right);
 
-    if (joy1.getRawButton(1)) {
+    if (joy1.getRawButton(1)) { //intake
       LeftIntakeMotor.set(0.5);
       RightIntakeMotor.set(-0.5);
     } else {
@@ -84,13 +102,13 @@ if (time - startTime < 3) {
       RightIntakeMotor.set(0);
     }
 
-    if (joy1.getRawButton(2)) {
+    if (joy1.getRawButton(2)) { //elevator motor open
       ElevatorMotor.set(0.5);
     } else {
       ElevatorMotor.set(0);
     }
 
-    if (joy1.getRawButton(3)) {
+    if (joy1.getRawButton(3)) { //elevator motor close
       ElevatorMotor.set(-0.5);
     } else {
       ElevatorMotor.set(0);
