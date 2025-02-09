@@ -29,6 +29,11 @@ public class Robot extends TimedRobot {
 
   private double startTime;
 
+  private VictorSP LeftIntakeMotor = new VictorSP(4);
+  private VictorSP RightIntakeMotor = new VictorSP(5);
+
+  private VictorSP ElevatorMotor = new VictorSP(6);
+
 
   @Override
   public void robotPeriodic() {}
@@ -70,6 +75,27 @@ if (time - startTime < 3) {
     LeftMasterMotor2.set(left);
     RightMasterMotor1.set(-right);
     RightMasterMotor2.set(-right);
+
+    if (joy1.getRawButton(1)) {
+      LeftIntakeMotor.set(0.5);
+      RightIntakeMotor.set(-0.5);
+    } else {
+      LeftIntakeMotor.set(0);
+      RightIntakeMotor.set(0);
+    }
+
+    if (joy1.getRawButton(2)) {
+      ElevatorMotor.set(0.5);
+    } else {
+      ElevatorMotor.set(0);
+    }
+
+    if (joy1.getRawButton(3)) {
+      ElevatorMotor.set(-0.5);
+    } else {
+      ElevatorMotor.set(0);
+    }
+
   }
 
   @Override
