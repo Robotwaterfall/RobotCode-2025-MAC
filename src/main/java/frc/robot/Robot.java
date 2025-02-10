@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     double speed = -joy1.getRawAxis(1) * 0.6;
-    double turn = joy1.getRawAxis(4) * 0.3;
+    double turn = joy1.getRawAxis(0) * 0.3;
 
     double left = speed + turn;  // calculate left and right motor speeds
     double right = speed - turn;
