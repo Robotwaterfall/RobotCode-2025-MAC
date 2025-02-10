@@ -30,12 +30,6 @@ public class Robot extends TimedRobot {
 
   private double startTime;
 
-  private Spark LeftIntakeMotor = new Spark(4);
-  private Spark RightIntakeMotor = new Spark(5);
-
-  private Spark ElevatorMotor = new Spark(6);
-
-
   @Override
   public void robotPeriodic() {}
 
@@ -69,13 +63,7 @@ if (time - startTime < 3) {
     LeftMasterMotor2.set(0);
     RightMasterMotor1.set(0);
     RightMasterMotor2.set(0);
-  if (time -startTime < 3) {
-    LeftIntakeMotor.set (0.5); //Intake on for 3 secounds at 50% speed
-    RightIntakeMotor.set (-0.5);
-  } else {
-    LeftIntakeMotor.set(0); //stop if time is over 3 seconds
-    RightIntakeMotor.set(0);
-    }
+ 
   }
   }
 
@@ -94,26 +82,6 @@ if (time - startTime < 3) {
     LeftMasterMotor2.set(left);
     RightMasterMotor1.set(-right);
     RightMasterMotor2.set(-right);
-
-    if (joy1.getRawButton(1)) { //intake
-      LeftIntakeMotor.set(0.5);
-      RightIntakeMotor.set(-0.5);
-    } else {
-      LeftIntakeMotor.set(0);
-      RightIntakeMotor.set(0);
-    }
-
-    if (joy1.getRawButton(2)) { //elevator motor open
-      ElevatorMotor.set(0.5);
-    } else {
-      ElevatorMotor.set(0);
-    }
-
-    if (joy1.getRawButton(3)) { //elevator motor close
-      ElevatorMotor.set(-0.5);
-    } else {
-      ElevatorMotor.set(0);
-    }
 
   }
 
