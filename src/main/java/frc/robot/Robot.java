@@ -30,10 +30,6 @@ public class Robot extends TimedRobot {
 
   private double startTime;
 
-  private Spark LeftIntakeMotor = new Spark(4);
-  private Spark RightIntakeMotor = new Spark(5);
-
-  private Spark ElevatorMotor = new Spark(6);
 
 
   @Override
@@ -99,26 +95,6 @@ if (time - startTime < 3) {
       LeftIntakeMotor.set(0.5);
       RightIntakeMotor.set(-0.5);
     } else {
-      LeftIntakeMotor.set(0);
-      RightIntakeMotor.set(0);
-    }
-
-    if (joy1.getRawButton(2)) { //elevator motor open
-      ElevatorMotor.set(0.5);
-    } else {
-      ElevatorMotor.set(0);
-    }
-
-    if (joy1.getRawButton(3)) { //elevator motor close
-      ElevatorMotor.set(-0.5);
-    } else {
-      ElevatorMotor.set(0);
-    }
-
-  }
-
-  @Override
-  public void disabledInit() {}
 
   @Override
   public void disabledPeriodic() {}
