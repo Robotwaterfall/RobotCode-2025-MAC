@@ -4,10 +4,10 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 
 /**
@@ -21,68 +21,39 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
 
-  private VictorSP LeftMasterMotor1 = new VictorSP(0);
-  private VictorSP LeftMasterMotor2 = new VictorSP(1);
+  private TalonSRX LeftMasterMotor1 = new TalonSRX(18);
+  private VictorSP LeftMasterMotor2 = new VictorSP(19);
   private VictorSP RightMasterMotor1 = new VictorSP(2);
-  private VictorSP RightMasterMotor2 = new VictorSP(3);
+  private TalonSRX RightMasterMotor2 = new TalonSRX(1);
 
   private Joystick joy1 = new Joystick(0);
 
-  private double startTime;
 
   @Override
   public void robotPeriodic() {}
 
   @Override
-  public void autonomousInit() {
-    startTime = Timer.getFPGATimestamp();
-  }
+  public void autonomousInit() {}
 
   @Override
-  public void autonomousPeriodic() {
-    double time = Timer.getFPGATimestamp();
-
-if (time - startTime < 3) {
-    LeftMasterMotor1.set(0.5); //drive forward for 3 seconds at 50% speed
-    LeftMasterMotor2.set(0.5);
-    RightMasterMotor1.set(-0.5);
-    RightMasterMotor2.set(-0.5);
-  } else {
-    LeftMasterMotor1.set(0); //stop if time is over 3 seconds
-    LeftMasterMotor2.set(0);
-    RightMasterMotor1.set(0);
-    RightMasterMotor2.set(0);
-    }
-  if (time - startTime > 3) { //turn right for longer 3 secounds at 20% speed
-    LeftMasterMotor1.set (0.2);
-    LeftMasterMotor2.set (0.2);
-    RightMasterMotor1.set (0);
-    RightMasterMotor2.set (0);
-  } else {
-    LeftMasterMotor1.set(0); //stop if time is over 6 seconds
-    LeftMasterMotor2.set(0);
-    RightMasterMotor1.set(0);
-    RightMasterMotor2.set(0);
+  public void autonomousPeriodic() {}
  
-  }
-  }
 
   @Override
   public void teleopInit() {}
 
   @Override
   public void teleopPeriodic() {
-    double speed = -joy1.getRawAxis(1)*0.6;
-    double turn = joy1.getRawAxis(4)*0.3;
+    double speed = -joy1.getRawAxis(1) * 0.6;
+    double turn = joy1.getRawAxis(4) * 0.3;
 
-    double left = speed + turn;  //calculate left and right motor speeds
+    double left = speed + turn;  // calculate left and right motor speeds
     double right = speed - turn;
 
-    LeftMasterMotor1.set(left); //set motor speeds
+    LeftMasterMotor1.set(ControlMode.PercentOutput, left);
     LeftMasterMotor2.set(left);
     RightMasterMotor1.set(-right);
-    RightMasterMotor2.set(-right);
-
+    RightMasterMotor2.set(ControlMode.PercentOutput, -right); 
   }
 
   @Override
