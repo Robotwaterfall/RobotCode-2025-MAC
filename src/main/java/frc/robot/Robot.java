@@ -28,13 +28,16 @@ public class Robot extends TimedRobot {
 
   private Joystick joy1 = new Joystick(0);
 
-  private Spark LeftIntakeMotor = new Spark (4);
-  private Spark RightIntakeMotor = new Spark (5);
-
-  private Spark ElevatorMotor = new Spark (6);
-
   private double startTime;
 
+  private Spark LeftIntakeMotor = new Spark(4);
+  private Spark RightIntakeMotor = new Spark(5);
+
+  private Spark ElevatorMotor = new Spark(6);
+
+
+  @Override
+  public void robotPeriodic() {}
 
   @Override
   public void autonomousInit() {
@@ -66,10 +69,21 @@ if (time - startTime < 3) {
     LeftMasterMotor2.set(0);
     RightMasterMotor1.set(0);
     RightMasterMotor2.set(0);
+  if (time -startTime < 3) {
+    LeftIntakeMotor.set (0.5); //Intake on for 3 secounds at 50% speed
+    RightIntakeMotor.set (-0.5);
+  } else {
+    LeftIntakeMotor.set(0); //stop if time is over 3 seconds
+    RightIntakeMotor.set(0);
+    }
   }
   }
- 
-  public void teleopInit() {
+
+  @Override
+  public void teleopInit() {}
+
+  @Override
+  public void teleopPeriodic() {
     double speed = -joy1.getRawAxis(1)*0.6;
     double turn = joy1.getRawAxis(4)*0.3;
 
@@ -81,7 +95,7 @@ if (time - startTime < 3) {
     RightMasterMotor1.set(-right);
     RightMasterMotor2.set(-right);
 
-    if (joy1.getRawButton(1)) { //intake on and off activates when the button is held or presse
+    if (joy1.getRawButton(1)) { //intake
       LeftIntakeMotor.set(0.5);
       RightIntakeMotor.set(-0.5);
     } else {
@@ -100,8 +114,11 @@ if (time - startTime < 3) {
     } else {
       ElevatorMotor.set(0);
     }
+
   }
-  
+
+  @Override
+  public void disabledInit() {}
 
   @Override
   public void disabledPeriodic() {}
