@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -28,15 +29,33 @@ public class Robot extends TimedRobot {
 
   private Joystick joy1 = new Joystick(0);
 
+  private double startTime;
+
 
   @Override
   public void robotPeriodic() {}
 
   @Override
-  public void autonomousInit() {}
+  public void autonomousInit() {
+    startTime = Timer.getFPGATimestamp();
+  }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    double time = Timer.getFPGATimestamp();
+
+    if (time - startTime < 3) {
+    LeftMasterMotor1.set(ControlMode.PercentOutput, 0.6);
+    LeftMasterMotor2.set(0.6);
+    RightMasterMotor1.set(-0.6);
+    RightMasterMotor2.set(ControlMode.PercentOutput, -0.6);
+    } else {
+      LeftMasterMotor1.set(ControlMode.PercentOutput, 0);
+      LeftMasterMotor2.set(0);
+      RightMasterMotor1.set(0);
+      RightMasterMotor2.set(ControlMode.PercentOutput, 0);
+    } 
+  }
  
 
   @Override
