@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 
 /**
@@ -29,10 +30,10 @@ public class Robot extends TimedRobot {
 
   private double startTime;
 
-  private VictorSP LeftIntakeMotor = new VictorSP(4);
-  private VictorSP RightIntakeMotor = new VictorSP(5);
+  private Spark LeftIntakeMotor = new Spark(4);
+  private Spark RightIntakeMotor = new Spark(5);
 
-  private VictorSP ElevatorMotor = new VictorSP(6);
+  private Spark ElevatorMotor = new Spark(6);
 
 
   @Override
