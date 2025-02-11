@@ -65,7 +65,7 @@ public class Robot extends TimedRobot {
       double outputspeed = Kp * error;
 
     //output to motor
-    PIDmotor.set(outputspeed);
+    PIDmotor.set(1);
     }
 
     @Override
