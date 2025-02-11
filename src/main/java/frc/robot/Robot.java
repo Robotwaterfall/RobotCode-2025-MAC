@@ -9,9 +9,9 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
-
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
  * the TimedRobot documentation. If you change the name of this class or the package after creating
@@ -27,16 +27,12 @@ public class Robot extends TimedRobot {
   private VictorSP LeftMasterMotor2 = new VictorSP(19);
   private VictorSP RightMasterMotor1 = new VictorSP(2);
   private TalonSRX RightMasterMotor2 = new TalonSRX(1);
+  private SparkMax TestMotor = new SparkMax(13, MotorType.kBrushless);
 
 
   private Joystick joy1 = new Joystick(0);
 
   private double startTime;
-
-  private Spark LeftIntakeMotor = new Spark(4);
-  private Spark RightIntakeMotor = new Spark(5);
-
-  private Spark ElevatorMotor = new Spark(6);
 
 
   @Override
@@ -81,23 +77,9 @@ if (time - startTime < 3) {
     RightMasterMotor2.set(ControlMode.PercentOutput, -right);
 
     if (joy1.getRawButton(1)) { //intake
-      LeftIntakeMotor.set(0.5);
-      RightIntakeMotor.set(-0.5);
+      TestMotor.set(0.5);
     } else {
-      LeftIntakeMotor.set(0);
-      RightIntakeMotor.set(0);
-    }
-
-    if (joy1.getRawButton(2)) { //elevator motor open
-      ElevatorMotor.set(0.5);
-    } else {
-      ElevatorMotor.set(0);
-    }
-
-    if (joy1.getRawButton(3)) { //elevator motor close
-      ElevatorMotor.set(-0.5);
-    } else {
-      ElevatorMotor.set(0);
+      TestMotor.set(0);
     }
 
   }
