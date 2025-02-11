@@ -6,9 +6,14 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Encoder;
+
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -25,18 +30,48 @@ public class Robot extends TimedRobot {
   private VictorSP LeftMasterMotor2 = new VictorSP(19);
   private VictorSP RightMasterMotor1 = new VictorSP(2);
   private TalonSRX RightMasterMotor2 = new TalonSRX(1);
+  private SparkMax PIDmotor = new SparkMax(13, MotorType.kBrushless);
 
+  private Encoder encorder = new Encoder(0, 1, true, Encoder.EncodingType.k4X);
+  private final double kdriveTick2Feet = 1.0 / 128 * 6 * Math.PI / 12;
   private Joystick joy1 = new Joystick(0);
 
 
-  @Override
-  public void robotPeriodic() {}
+
 
   @Override
-  public void autonomousInit() {}
+  public void autonomousInit() {
+    encorder.reset();
+    
+  }
+  final double Kp = 0.05;
+
+  double setpoint = 0;
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    // get joystick position
+    if (joy1.getRawButton(1)){
+      setpoint = 10;
+    } else if (joy1.getRawButton(2)) {
+      setpoint = 0;
+    }
+
+    // sensor position
+    double sensorPosition = encorder.get() * kdriveTick2Feet;
+
+    //calculations
+    double error = setpoint - sensorPosition;
+      double outputspeed = Kp * error;
+
+    //output to motor
+    PIDmotor.set(outputspeed);
+    }
+
+    @Override
+    public void robotPeriodic() {
+      SmartDashboard.putNumber("encoder value", encorder.get() * kdriveTick2Feet);
+    }
  
 
   @Override
