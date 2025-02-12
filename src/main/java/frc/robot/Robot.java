@@ -6,14 +6,11 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Encoder;
-
+import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -30,66 +27,59 @@ public class Robot extends TimedRobot {
   private VictorSP LeftMasterMotor2 = new VictorSP(19);
   private VictorSP RightMasterMotor1 = new VictorSP(2);
   private TalonSRX RightMasterMotor2 = new TalonSRX(1);
-  private SparkMax PIDmotor = new SparkMax(13, MotorType.kBrushless);
 
-  private Encoder encorder = new Encoder(0, 1, true, Encoder.EncodingType.k4X);
-  private final double kdriveTick2Feet = 1.0 / 128 * 6 * Math.PI / 12;
-  private Joystick joy1 = new Joystick(0);
+  private Joystick Joy1 = new Joystick(0);
+
+  private Encoder encoder = new Encoder(0,1 , false , Encoder.EncodingType.k4X);
+  private final double kDriveTick2Feet = 1.0 / 128 * 6 * Math.PI / 12;
 
 
 
 
   @Override
   public void autonomousInit() {
-    encorder.reset();
-    
+    encoder.reset();
   }
-  final double Kp = 0.05;
+
+  final double kP = 0.05;
 
   double setpoint = 0;
 
   @Override
   public void autonomousPeriodic() {
-    // get joystick position
-    if (joy1.getRawButton(1)){
+    // get joystick command
+    if (Joy1.getRawButton(1)) {
       setpoint = 10;
-    } else if (joy1.getRawButton(2)) {
+    } else if (Joy1.getRawButton(2)) {
       setpoint = 0;
     }
 
-    // sensor position
-    double sensorPosition = encorder.get() * kdriveTick2Feet;
+    // get sensor position
+    double sensorPosition = encoder.get() * kDriveTick2Feet;
 
-    //calculations
+    // calculations
     double error = setpoint - sensorPosition;
-      double outputspeed = Kp * error;
 
-    //output to motor
-    PIDmotor.set(1);
-    }
+    double outputSpeed = kP * error;
 
-    @Override
-    public void robotPeriodic() {
-      SmartDashboard.putNumber("encoder value", encorder.get() * kdriveTick2Feet);
-    }
+    // set motor speed
+    LeftMasterMotor1.set(ControlMode.PercentOutput, outputSpeed);
+    LeftMasterMotor2.set(outputSpeed);
+    RightMasterMotor1.set(-outputSpeed);
+    RightMasterMotor2.set(ControlMode.PercentOutput, -outputSpeed);
+  }
+
+  @Override
+  public void robotPeriodic() {
+    SmartDashboard.putNumber("encoder value", encoder.get() * kDriveTick2Feet);
+  }
  
 
   @Override
   public void teleopInit() {}
 
   @Override
-  public void teleopPeriodic() {
-    double speed = -joy1.getRawAxis(1) * 0.6;
-    double turn = joy1.getRawAxis(0) * 0.3;
-
-    double left = speed + turn;  // calculate left and right motor speeds
-    double right = speed - turn;
-
-    LeftMasterMotor1.set(ControlMode.PercentOutput, left);
-    LeftMasterMotor2.set(left);
-    RightMasterMotor1.set(-right);
-    RightMasterMotor2.set(ControlMode.PercentOutput, -right); 
-  }
+  public void teleopPeriodic() {}
 
   @Override
   public void disabledInit() {}
