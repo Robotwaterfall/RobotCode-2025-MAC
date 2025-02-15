@@ -8,7 +8,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
@@ -22,10 +21,10 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
 
-  private TalonSRX LeftMasterMotor1 = new TalonSRX(18);
-  private VictorSP LeftMasterMotor2 = new VictorSP(19);
-  private VictorSP RightMasterMotor1 = new VictorSP(2);
-  private TalonSRX RightMasterMotor2 = new TalonSRX(1);
+   private TalonSRX LeftMasterMotor1 = new TalonSRX( 18);
+   private TalonSRX LeftMasterMotor2 = new TalonSRX(3);
+   private TalonSRX RightMasterMotor1 = new TalonSRX(4);
+   private TalonSRX RightMasterMotor2 = new TalonSRX(1);
 
   private Joystick joy1 = new Joystick(0);
 
@@ -46,13 +45,13 @@ public class Robot extends TimedRobot {
 
     if (time - startTime < 3) {
     LeftMasterMotor1.set(ControlMode.PercentOutput, 0.6);
-    LeftMasterMotor2.set(0.6);
-    RightMasterMotor1.set(-0.6);
+    LeftMasterMotor2.set(ControlMode.PercentOutput, 0.6);
+    RightMasterMotor1.set(ControlMode.PercentOutput, -0.6);
     RightMasterMotor2.set(ControlMode.PercentOutput, -0.6);
     } else {
       LeftMasterMotor1.set(ControlMode.PercentOutput, 0);
-      LeftMasterMotor2.set(0);
-      RightMasterMotor1.set(0);
+      LeftMasterMotor2.set(ControlMode.PercentOutput, 0);
+      RightMasterMotor1.set(ControlMode.PercentOutput, 0);
       RightMasterMotor2.set(ControlMode.PercentOutput, 0);
     } 
   }
@@ -70,8 +69,8 @@ public class Robot extends TimedRobot {
     double right = speed - turn;
 
     LeftMasterMotor1.set(ControlMode.PercentOutput, left);
-    LeftMasterMotor2.set(left);
-    RightMasterMotor1.set(-right);
+    LeftMasterMotor2.set(ControlMode.PercentOutput, left);
+    RightMasterMotor1.set(ControlMode.PercentOutput, -right);
     RightMasterMotor2.set(ControlMode.PercentOutput, -right); 
   }
 
