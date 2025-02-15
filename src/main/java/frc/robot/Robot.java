@@ -7,7 +7,6 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
@@ -23,10 +22,11 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
 
-  private TalonSRX LeftMasterMotor1 = new TalonSRX(18);
-  private VictorSP LeftMasterMotor2 = new VictorSP(19);
-  private VictorSP RightMasterMotor1 = new VictorSP(2);
+  private TalonSRX LeftMasterMotor1 = new TalonSRX( 18);
+  private TalonSRX LeftMasterMotor2 = new TalonSRX(3);
+  private TalonSRX RightMasterMotor1 = new TalonSRX(4);
   private TalonSRX RightMasterMotor2 = new TalonSRX(1);
+  
 
   private Joystick Joy1 = new Joystick(0);
 
@@ -64,8 +64,8 @@ public class Robot extends TimedRobot {
 
     // set motor speed
     LeftMasterMotor1.set(ControlMode.PercentOutput, outputSpeed);
-    LeftMasterMotor2.set(outputSpeed);
-    RightMasterMotor1.set(-outputSpeed);
+    LeftMasterMotor2.set(ControlMode.PercentOutput, outputSpeed);
+    RightMasterMotor1.set(ControlMode.PercentOutput, -outputSpeed);
     RightMasterMotor2.set(ControlMode.PercentOutput, -outputSpeed);
   }
 
