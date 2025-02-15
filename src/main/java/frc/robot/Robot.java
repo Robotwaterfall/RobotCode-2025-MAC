@@ -9,9 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
+
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
  * the TimedRobot documentation. If you change the name of this class or the package after creating
@@ -23,11 +21,10 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
 
-  private TalonSRX LeftMasterMotor1 = new TalonSRX(18);
-  private VictorSP LeftMasterMotor2 = new VictorSP(19);
-  private VictorSP RightMasterMotor1 = new VictorSP(2);
-  private TalonSRX RightMasterMotor2 = new TalonSRX(1);
-  private SparkMax TestMotor = new SparkMax(13, MotorType.kBrushless);
+   private TalonSRX LeftMasterMotor1 = new TalonSRX( 18);
+   private TalonSRX LeftMasterMotor2 = new TalonSRX(3);
+   private TalonSRX RightMasterMotor1 = new TalonSRX(4);
+   private TalonSRX RightMasterMotor2 = new TalonSRX(1);
 
 
   private Joystick joy1 = new Joystick(0);
@@ -49,13 +46,13 @@ public class Robot extends TimedRobot {
 
 if (time - startTime < 3) {
     LeftMasterMotor1.set(ControlMode.PercentOutput, 0.5); //drive forward for 3 seconds at 50% speed
-    LeftMasterMotor2.set(0.5);
-    RightMasterMotor1.set(-0.5);
+    LeftMasterMotor2.set(ControlMode.PercentOutput, 0.5);
+    RightMasterMotor1.set(ControlMode.PercentOutput, -0.5);
     RightMasterMotor2.set(ControlMode.PercentOutput, -0.5);
   } else {
     LeftMasterMotor1.set(ControlMode.PercentOutput, 0); //stop if time is over 3 seconds
-    LeftMasterMotor2.set(0);
-    RightMasterMotor1.set(0);
+    LeftMasterMotor2.set(ControlMode.PercentOutput, 0);
+    RightMasterMotor1.set(ControlMode.PercentOutput, 0);
     RightMasterMotor2.set(ControlMode.PercentOutput, 0);
     }
   }
@@ -72,21 +69,14 @@ if (time - startTime < 3) {
     double right = speed - turn;
 
     LeftMasterMotor1.set(ControlMode.PercentOutput, left); //set motor speeds
-    LeftMasterMotor2.set(left);
-    RightMasterMotor1.set(-right);
+    LeftMasterMotor2.set(ControlMode.PercentOutput, left);
+    RightMasterMotor1.set(ControlMode.PercentOutput, -right);
     RightMasterMotor2.set(ControlMode.PercentOutput, -right);
 
-    if (joy1.getRawButton(1)) { //intake
-      TestMotor.set(0.5);
-    } else {
-      TestMotor.set(0);
+  
     }
 
-  }
-
-  @Override
-  public void disabledInit() {}
-
+  
   @Override
   public void disabledPeriodic() {}
 
