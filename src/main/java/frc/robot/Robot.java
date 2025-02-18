@@ -4,8 +4,7 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Encoder;
@@ -22,10 +21,8 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
 
-  private TalonSRX LeftMasterMotor1 = new TalonSRX( 18);
-  private TalonSRX LeftMasterMotor2 = new TalonSRX(3);
-  private TalonSRX RightMasterMotor1 = new TalonSRX(4);
-  private TalonSRX RightMasterMotor2 = new TalonSRX(1);
+  private SparkMax PIDtestmotor = new SparkMax(13, com.revrobotics.spark.SparkLowLevel.MotorType.kBrushless);
+
   
 
   private Joystick Joy1 = new Joystick(0);
@@ -47,7 +44,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    // get joystick command
+    // get joystick command setting the setpoint
     if (Joy1.getRawButton(1)) {
       setpoint = 10;
     } else if (Joy1.getRawButton(2)) {
@@ -63,10 +60,8 @@ public class Robot extends TimedRobot {
     double outputSpeed = kP * error;
 
     // set motor speed
-    LeftMasterMotor1.set(ControlMode.PercentOutput, outputSpeed);
-    LeftMasterMotor2.set(ControlMode.PercentOutput, outputSpeed);
-    RightMasterMotor1.set(ControlMode.PercentOutput, -outputSpeed);
-    RightMasterMotor2.set(ControlMode.PercentOutput, -outputSpeed);
+    PIDtestmotor.set(outputSpeed);
+
   }
 
   @Override
