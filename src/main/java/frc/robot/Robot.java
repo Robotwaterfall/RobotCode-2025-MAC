@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
    * for any initialization code.
    */
 
-  private SparkMax leftMotor1 = new SparkMax(13, MotorType.kBrushless);
+  private SparkMax PIDmotor = new SparkMax(13, MotorType.kBrushless);
 
   private Joystick joy1 = new Joystick(0);
 
@@ -37,46 +37,44 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousInit() {
-    encoder.reset();
-  }
+  public void autonomousInit(){}
 
   final double kP = 0.5;
 
   double setpoint = 0;
 
   @Override
-  public void autonomousPeriodic() {
-    // get joystick command
-    if (joy1.getRawButton(1)) {
-      setpoint = 10;
-    } else if (joy1.getRawButton(2)) {
-      setpoint = 0;
-    }
-
-    // get sensor position
-    double sensorPosition = encoder.get() * kDriveTick2Feet;
-
-    // calculations
-    double error = setpoint - sensorPosition;
-
-    double outputSpeed = kP * error;
-
-    // output to motors
-    leftMotor1.set(outputSpeed);
-  }
+  public void autonomousPeriodic() {}
 
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber("encoder value", encoder.get() * kDriveTick2Feet);
+    SmartDashboard.putNumber("encoder value", PIDmotor.getEncoder().getPosition() * kDriveTick2Feet);
   }
 
   @Override
   public void teleopInit() {
+    PIDmotor.getEncoder().setPosition(0);
   }
 
   @Override
   public void teleopPeriodic() {
+        // get joystick command
+        if (joy1.getRawButton(1)) {
+          setpoint = 10;
+        } else if (joy1.getRawButton(2)) {
+          setpoint = 0;
+        }
+    
+        // get sensor position
+        double sensorPosition =  PIDmotor.getEncoder().getPosition() * kDriveTick2Feet;
+    
+        // calculations
+        double error = setpoint - sensorPosition;
+    
+        double outputSpeed = kP * error;
+    
+        // output to motors
+        PIDmotor.set(outputSpeed);
   }
 
   @Override
