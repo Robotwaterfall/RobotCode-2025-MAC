@@ -6,6 +6,9 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -25,7 +28,7 @@ public class Robot extends TimedRobot {
    private TalonSRX LeftMasterMotor2 = new TalonSRX(3);
    private TalonSRX RightMasterMotor1 = new TalonSRX(4);
    private TalonSRX RightMasterMotor2 = new TalonSRX(1);
-
+   private SparkMax Testmotor = new SparkMax(13, MotorType.kBrushless);
 
   private Joystick joy1 = new Joystick(0);
 
@@ -44,17 +47,46 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     double time = Timer.getFPGATimestamp();
 
-if (time - startTime < 3) {
-    LeftMasterMotor1.set(ControlMode.PercentOutput, 0.5); //drive forward for 3 seconds at 50% speed
-    LeftMasterMotor2.set(ControlMode.PercentOutput, 0.5);
-    RightMasterMotor1.set(ControlMode.PercentOutput, -0.5);
-    RightMasterMotor2.set(ControlMode.PercentOutput, -0.5);
-  } else {
-    LeftMasterMotor1.set(ControlMode.PercentOutput, 0); //stop if time is over 3 seconds
-    LeftMasterMotor2.set(ControlMode.PercentOutput, 0);
-    RightMasterMotor1.set(ControlMode.PercentOutput, 0);
-    RightMasterMotor2.set(ControlMode.PercentOutput, 0);
-    }
+    if (time - startTime < 3) { // drive forward for 3 seconds
+      LeftMasterMotor1.set(ControlMode.PercentOutput, 0.6);
+      LeftMasterMotor2.set(ControlMode.PercentOutput, 0.6);
+      RightMasterMotor1.set(ControlMode.PercentOutput, -0.6);
+      RightMasterMotor2.set(ControlMode.PercentOutput, -0.6);
+      } else {
+        LeftMasterMotor1.set(ControlMode.PercentOutput, 0);
+        LeftMasterMotor2.set(ControlMode.PercentOutput, 0);
+        RightMasterMotor1.set(ControlMode.PercentOutput, 0);
+        RightMasterMotor2.set(ControlMode.PercentOutput, 0);
+      }
+      
+      if (time - startTime > 3 && time - startTime < 5){ // turn right for 2 seconds at 60% speed
+      LeftMasterMotor1.set(ControlMode.PercentOutput, 0.6);
+      LeftMasterMotor2.set(ControlMode.PercentOutput, 0.6);
+      RightMasterMotor1.set(ControlMode.PercentOutput, 0);
+      RightMasterMotor2.set(ControlMode.PercentOutput, 0);
+      } else {
+        LeftMasterMotor1.set(ControlMode.PercentOutput, 0);
+        LeftMasterMotor2.set(ControlMode.PercentOutput, 0);
+        RightMasterMotor1.set(ControlMode.PercentOutput, 0);
+        RightMasterMotor2.set(ControlMode.PercentOutput, 0);
+      }
+      if (time - startTime > 5 && time -startTime < 10) { // drive backwards for 5 seconds at 60% speed
+        LeftMasterMotor1.set(ControlMode.PercentOutput, -0.6);
+        LeftMasterMotor2.set(ControlMode.PercentOutput, -0.6);
+        RightMasterMotor1.set(ControlMode.PercentOutput, 0.6);
+        RightMasterMotor2.set(ControlMode.PercentOutput, 0.6);
+      } else {
+        LeftMasterMotor1.set(ControlMode.PercentOutput, 0);
+        LeftMasterMotor2.set(ControlMode.PercentOutput, 0);
+        RightMasterMotor1.set(ControlMode.PercentOutput, 0);
+        RightMasterMotor2.set(ControlMode.PercentOutput, 0);
+      }
+      if (time - startTime > 10 && time - startTime < 12) { // turn testmotor for 2 seconds right at 50% speed
+        Testmotor.set(0.5);
+      } else {
+        Testmotor.set(0);
+      }
+  
   }
 
   @Override
@@ -73,9 +105,18 @@ if (time - startTime < 3) {
     RightMasterMotor1.set(ControlMode.PercentOutput, -right);
     RightMasterMotor2.set(ControlMode.PercentOutput, -right);
 
-  
+    if (joy1.getRawButton(0)) { //if button 0 is pressed, set Testmotor to 50% speed untill unpressed
+      Testmotor.set(0.5);
+    } else {
+      Testmotor.set(0);
     }
 
+    if (joy1.getRawButton(1)) { //if button 1 is pressed, set Testmotor to -50% speed untill unpressed
+      Testmotor.set(-0.5);
+    } else {
+      Testmotor.set(0);
+    }
+  }
   
   @Override
   public void disabledPeriodic() {}
